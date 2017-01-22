@@ -6,6 +6,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import {NewPostPage} from "../pages/new-post/new-post";
 import {ExplorePage} from "../pages/explore/explore";
 import {CameraService} from "../providers/camera-service";
+import {IntroPage} from "../pages/intro-page/intro-page";
+import {RegisterPage} from "../pages/register/register";
 
 @NgModule({
   declarations: [
@@ -13,7 +15,9 @@ import {CameraService} from "../providers/camera-service";
     HomePage,
     NewPostPage,
     ExplorePage,
-    TabsPage
+    TabsPage,
+    IntroPage,
+    RegisterPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -24,7 +28,9 @@ import {CameraService} from "../providers/camera-service";
     HomePage,
     NewPostPage,
     ExplorePage,
-    TabsPage
+    IntroPage,
+    TabsPage,
+    RegisterPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, CameraService]
 })
