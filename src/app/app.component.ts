@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
-
+import {ConfigService} from '../providers/config-service'
 import { TabsPage } from '../pages/tabs/tabs';
 import { IntroPage } from '../pages/intro-page/intro-page';
 
@@ -11,7 +11,8 @@ import { IntroPage } from '../pages/intro-page/intro-page';
 export class MyApp {
   rootPage = IntroPage;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, configService: ConfigService) {
+    configService.initializeFirebase();
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

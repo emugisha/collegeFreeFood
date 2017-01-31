@@ -8,6 +8,9 @@ import {ExplorePage} from "../pages/explore/explore";
 import {CameraService} from "../providers/camera-service";
 import {IntroPage} from "../pages/intro-page/intro-page";
 import {RegisterPage} from "../pages/register/register";
+import {ConfigService} from "../providers/config-service";
+import {AccountService} from "../providers/account-service";
+import {LoginPage} from "../pages/login/login";
 
 @NgModule({
   declarations: [
@@ -17,7 +20,8 @@ import {RegisterPage} from "../pages/register/register";
     ExplorePage,
     TabsPage,
     IntroPage,
-    RegisterPage
+    RegisterPage,
+    LoginPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -30,8 +34,12 @@ import {RegisterPage} from "../pages/register/register";
     ExplorePage,
     IntroPage,
     TabsPage,
-    RegisterPage
+    RegisterPage,
+    LoginPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, CameraService]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},
+    CameraService,
+    ConfigService,
+    AccountService]
 })
 export class AppModule {}

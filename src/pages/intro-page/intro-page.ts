@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {RegisterPage} from "../register/register";
+import {LoginPage} from "../login/login";
 
 /*
   Generated class for the IntroPage page.
@@ -22,6 +23,10 @@ export class IntroPage {
 
   register(){
     this.navCtrl.push(RegisterPage);
+  }
+
+  gotoLogin(){
+    this.navCtrl.push(LoginPage);
   }
 
 }

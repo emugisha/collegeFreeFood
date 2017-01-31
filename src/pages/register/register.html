@@ -7,12 +7,75 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Register</ion-title>
+    <ion-title text-center>Register</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="page-register" *ngIf="step===1">
 
+  <form (ngSubmit)="gotoStep(2)" novalidate>
+  <ion-list>
+
+    <ion-item class="register-margin">
+
+      <ion-input type="email" placeholder="Enter Your Email" [(ngModel)]="registrationModel.email" name="email" required></ion-input>
+    </ion-item>
+    <br>
+    <button ion-button block color="danger" type="submit">NEXT</button>
+  </ion-list>
+  </form>
+
+  <ion-footer>
+    <ion-toolbar color="danger">
+      <p text-center><span color="light">Already have an account? <b><a (click)="gotoLogin()" color="light" style="text-decoration: underline;">Login</a></b></span></p>
+    </ion-toolbar>
+  </ion-footer>
+
+</ion-content>
+
+<ion-content padding class="page-register" *ngIf="step===2">
+
+  <ion-list>
+
+    <ion-item class="register-margin">
+      <ion-input type="text" value="" placeholder="First name" [(ngModel)]="registrationModel.firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" value="" placeholder="Last Name" [(ngModel)]="registrationModel.lastName"></ion-input>
+    </ion-item>
+    <br>
+    <button ion-button block color="danger" (click)="gotoStep(3)">NEXT</button>
+  </ion-list>
+
+
+</ion-content>
+
+<ion-content padding class="page-register" *ngIf="step===3">
+
+  <ion-list>
+
+    <ion-item class="register-margin">
+
+      <ion-input type="password" value="" placeholder="Password" [(ngModel)]="registrationModel.password"></ion-input>
+    </ion-item>
+    <br>
+    <button ion-button block color="danger" (click)="gotoStep(4)">NEXT</button>
+  </ion-list>
+
+
+</ion-content>
+
+<ion-content padding class="page-register" *ngIf="step===4">
+
+  <ion-list>
+
+    <ion-item class="register-margin">
+
+      <ion-input type="text" value="" placeholder="Choose Your School" [(ngModel)]="registrationModel.school"></ion-input>
+    </ion-item>
+    <br>
+    <button ion-button block color="danger" (click)="gotoStep(4)">NEXT</button>
+  </ion-list>
 </ion-content>
