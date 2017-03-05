@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import {EditProfilePage} from "../edit-profile/edit-profile";
 
 /*
   Generated class for the Login page.
@@ -21,7 +22,7 @@ export class LoginPage {
   }
 
   login(){
-    console.log(this.loginModel);
+    this.navCtrl.push(EditProfilePage);
   }
 
 }
