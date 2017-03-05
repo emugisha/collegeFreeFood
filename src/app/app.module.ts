@@ -11,6 +11,8 @@ import {RegisterPage} from "../pages/register/register";
 import {ConfigService} from "../providers/config-service";
 import {AccountService} from "../providers/account-service";
 import {LoginPage} from "../pages/login/login";
+import {AuthService} from "../providers/auth-service";
+import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import {LoginPage} from "../pages/login/login";
     TabsPage,
     IntroPage,
     RegisterPage,
-    LoginPage
+    LoginPage,
+    EditProfilePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -35,11 +38,13 @@ import {LoginPage} from "../pages/login/login";
     IntroPage,
     TabsPage,
     RegisterPage,
-    LoginPage
+    LoginPage,
+    EditProfilePage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},
     CameraService,
     ConfigService,
-    AccountService]
+    AccountService,
+    AuthService]
 })
 export class AppModule {}
