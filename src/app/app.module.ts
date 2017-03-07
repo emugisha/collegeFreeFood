@@ -13,6 +13,7 @@ import {AccountService} from "../providers/account-service";
 import {LoginPage} from "../pages/login/login";
 import {AuthService} from "../providers/auth-service";
 import {EditProfilePage} from "../pages/edit-profile/edit-profile";
+import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 
 @NgModule({
   declarations: [
