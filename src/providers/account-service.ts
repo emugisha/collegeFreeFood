@@ -40,7 +40,11 @@ export class AccountService {
     return this.usersRef.child('users/'+userId).set(profileModel);
   }
 
-  editProfile(){
+  editProfile(profileModel){
+
+  }
+
+  getProfile(){
 
   }
 
