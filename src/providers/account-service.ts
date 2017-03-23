@@ -13,15 +13,17 @@ import {ConfigService} from "./config-service";
 export class AccountService {
 
   private usersRef;
-  private usernames;
-  constructor(public http: Http, configService:ConfigService) {
+  private dataRef;
+  private collegesRef;
 
-    this.usersRef = configService.getFirebaseDatabase();
-    this.usernames = configService.getFirebaseDatabase().ref('/usernames');
+  constructor(public http: Http, configService:ConfigService) {
+    this.dataRef = configService.getFirebaseDatabase();
+    this.usersRef = configService.getFirebaseDatabase().ref('/usernames');
+    this.collegesRef = this.dataRef.ref('/schools');
   }
 
   checkUsername(username){
-    this.usernames.once('value',
+    this.usersRef.once('value',
       (snapshot)=>{
       //TODO: Move to main page logic
         if(snapshot.hasChild(username.toLowerCase())){
@@ -33,7 +35,7 @@ export class AccountService {
   }
 
   saveUsername(usernameModel){
-    return this.usernames.child(usernameModel.username).set(usernameModel.name);
+    return this.usersRef.child(usernameModel.username).set(usernameModel.name);
   }
 
   createProfile(userId, profileModel){
@@ -50,5 +52,9 @@ export class AccountService {
 
   checkEmail(){
 
+  }
+
+  lookupColleges(){
+    return this.collegesRef.once('value');
   }
 }

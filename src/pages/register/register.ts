@@ -26,11 +26,12 @@ export class RegisterPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private authService:AuthService, private accoutService:AccountService) {}
 
   ionViewDidLoad() {
-    this.institutions.push('University of Arkansas');
+   /* this.institutions.push('University of Arkansas');
     this.institutions.push('Massachusset Institute of Technology');
     this.institutions.push('University of Maryland');
     this.institutions.push('Howard University');
-    this.institutions.push('Howard Community College');
+    this.institutions.push('Howard Community College');*/
+    this.loadAllSchools();
   }
 
   gotoStep(step){
@@ -43,10 +44,14 @@ export class RegisterPage {
 
   getSchools(event:any){
     let searchItem = event.target.value;
+    let allSchools;
     if (searchItem && searchItem.trim() != '') {
-      this.schools = this.institutions.filter((school) => {
-        return (school.toLowerCase().indexOf(searchItem.toLowerCase()) > -1);
+
+      allSchools = this.institutions.filter((school) => {
+          return (school.toLowerCase().indexOf(searchItem.toLowerCase()) > -1);
+
       })
+      this.schools =  allSchools.slice(0,5);
     }
   }
   chooseSchool(school){
@@ -78,6 +83,17 @@ export class RegisterPage {
       lastName:registrationModel.lastName,
       school: registrationModel.school
     }
+  }
+
+  private loadAllSchools(){
+    this.accoutService.lookupColleges().then((snapshot)=> {
+      console.log('Loaded schools.....');
+      snapshot.forEach((childSnapshot)=>{
+        this.institutions.push(childSnapshot.val().Institution_Name);
+      });
+
+      console.log(this.institutions);
+    })
   }
 
 }
