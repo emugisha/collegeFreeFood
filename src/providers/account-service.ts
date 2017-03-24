@@ -18,7 +18,7 @@ export class AccountService {
 
   constructor(public http: Http, configService:ConfigService) {
     this.dataRef = configService.getFirebaseDatabase();
-    this.usersRef = configService.getFirebaseDatabase().ref('/usernames');
+    this.usersRef = configService.getFirebaseDatabase().ref('/users');
     this.collegesRef = this.dataRef.ref('/schools');
   }
 
@@ -38,16 +38,38 @@ export class AccountService {
     return this.usersRef.child(usernameModel.username).set(usernameModel.name);
   }
 
-  createProfile(userId, profileModel){
-    return this.usersRef.child('users/'+userId).set(profileModel);
+  createProfile(user, profileModel){
+    let privateProfile = {
+      firstName:profileModel.firstName,
+      lastName:profileModel.lastName,
+      school: profileModel.school,
+      userId:user.uid,
+      username:null,
+      major:null,
+      email:null,
+      status:null
+    };
+
+    let publicProfile = {
+      firstName:profileModel.firstName,
+      lastName:profileModel.lastName,
+      school: profileModel.school,
+      major:null,
+      status:null
+    };
+    var profileData = {};
+    profileData['/private'] = privateProfile;
+    profileData['/public'] = publicProfile;
+
+    return this.usersRef.child('/'+ user.uid).update(profileData);
   }
 
   editProfile(profileModel){
 
   }
 
-  getProfile(){
-
+  getUserProfile(uid){
+    return this.usersRef.child('/'+ uid+'/private').once('value');
   }
 
   checkEmail(){

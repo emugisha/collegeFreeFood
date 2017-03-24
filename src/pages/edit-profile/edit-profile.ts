@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {NavController, NavParams, ActionSheetController} from 'ionic-angular';
 import {CameraService} from "../../providers/camera-service";
 import {AccountService} from "../../providers/account-service";
+import {AuthService} from "../../providers/auth-service";
 
 /*
   Generated class for the EditProfile page.
@@ -16,12 +17,24 @@ import {AccountService} from "../../providers/account-service";
 export class EditProfilePage {
 
   private profilePicture;
-  private profileModel = {};
+  private profileModel;
+  private user;
   constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public cameraService:CameraService,
-              public accountService: AccountService) {}
+              public accountService: AccountService, public authService: AuthService) {
+    this.profileModel = {};
+  }
 
   ionViewDidLoad() {
     this.profilePicture ="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+    this.user = this.authService.getCurrentAuthUser();
+    console.log(this.user);
+    if(this.user.uid) {
+      this.accountService.getUserProfile(this.user.uid).then((profile)=>{
+        this.profileModel = profile;
+        this.profileModel.name = this.profileModel.firstName + this.profileModel.lastName;
+      });
+    }
+
   }
 
   showPictureOptions(){

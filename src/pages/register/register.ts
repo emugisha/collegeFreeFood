@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {AuthService} from "../../providers/auth-service";
 import {AccountService} from "../../providers/account-service";
+import {EditProfilePage} from "../edit-profile/edit-profile";
 
 /*
   Generated class for the Register page.
@@ -17,20 +18,17 @@ import {AccountService} from "../../providers/account-service";
 export class RegisterPage {
 
   private step = 1;
-  private registrationModel = {school:''};
+  private registrationModel;
   private schools =[];
   private institutions =[];
-  private placeHolderText ="Find Your College";
+  private placeHolderText ="Find Your School";
   private schoolChosen;
   private newUser;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private authService:AuthService, private accoutService:AccountService) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, private authService:AuthService, private accoutService:AccountService) {
+    this.registrationModel = {};
 
+  }
   ionViewDidLoad() {
-   /* this.institutions.push('University of Arkansas');
-    this.institutions.push('Massachusset Institute of Technology');
-    this.institutions.push('University of Maryland');
-    this.institutions.push('Howard University');
-    this.institutions.push('Howard Community College');*/
     this.loadAllSchools();
   }
 
@@ -45,13 +43,13 @@ export class RegisterPage {
   getSchools(event:any){
     let searchItem = event.target.value;
     let allSchools;
+    let maxIndex;
     if (searchItem && searchItem.trim() != '') {
-
-      allSchools = this.institutions.filter((school) => {
-          return (school.toLowerCase().indexOf(searchItem.toLowerCase()) > -1);
-
+        maxIndex = 0;
+      this.schools = this.institutions.filter((school) => {
+          return maxIndex < 10 && (school.toLowerCase().indexOf(searchItem.toLowerCase()) > -1 && maxIndex++ < 10) ;
       })
-      this.schools =  allSchools.slice(0,5);
+
     }
   }
   chooseSchool(school){
@@ -62,8 +60,8 @@ export class RegisterPage {
   register(){
     this.authService.createAccount(this.registrationModel).then(
       (user)=>{
-        console.log(user);
         this.newUser = user;
+        this.createProfile(user);
       },
       (error)=>{
         var errorCode = error.code;
@@ -77,12 +75,16 @@ export class RegisterPage {
     );
   }
 
-  private createProfile(registrationModel){
-    let profile = {
-      firstName:registrationModel.firstName,
-      lastName:registrationModel.lastName,
-      school: registrationModel.school
-    }
+  private createProfile(user){
+    this.accoutService.createProfile(user, this.registrationModel).then(
+      (success)=>{
+        console.log(success);
+        this.navCtrl.push(EditProfilePage);
+      },(error)=>{
+        console.log('Error');
+      }
+    )
+
   }
 
   private loadAllSchools(){

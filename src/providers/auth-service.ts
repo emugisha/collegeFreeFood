@@ -44,6 +44,10 @@ export class AuthService {
     });
   }
 
+  getCurrentAuthUser(){
+    return this.auth.currentUser;
+  }
+
   logout(){
     this.auth.signout();
   }
