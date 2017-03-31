@@ -35,18 +35,18 @@
     <ion-list no-border>
       <ion-item>
         <ion-icon name="md-person" item-left></ion-icon>
-        <ion-input placeholder="Choose a username" autofocus ngModel="profileModel.username"></ion-input>
+        <ion-input placeholder="Choose a username" autofocus [(ngModel)]="profileModel.username"></ion-input>
 
       </ion-item>
 
       <ion-item>
       <ion-icon name="ios-body" item-left></ion-icon>
-      <ion-input placeholder="Name" ngModel="profileModel.name"></ion-input>
+      <ion-input placeholder="Name" [(ngModel)]="profileModel.name"></ion-input>
     </ion-item>
 
       <ion-item>
         <ion-icon name="ios-mic" item-left></ion-icon>
-        <ion-input placeholder="About me" ngModel="profileModel.description"></ion-input>
+        <ion-input placeholder="About me" [(ngModel)]="profileModel.description"></ion-input>
       </ion-item>
 
     </ion-list>
@@ -59,16 +59,16 @@
 
     <ion-item>
       <ion-icon name="ios-mail" item-left></ion-icon>
-      <ion-input placeholder="Email" ngModel="profileModel.email"></ion-input>
+      <ion-input placeholder="Email" [(ngModel)]="profileModel.email"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-icon name="ios-school" item-left></ion-icon>
-      <ion-input placeholder="Your School" ngModel="profileModel.school"></ion-input>
+      <ion-input placeholder="Your School" [(ngModel)]="profileModel.school"></ion-input>
     </ion-item>
     <ion-item>
       <ion-icon name="ios-call" item-left></ion-icon>
-      <ion-input placeholder="Phone" ngModel="profileModel.phone"></ion-input>
+      <ion-input placeholder="Phone" [(ngModel)]="profileModel.phone"></ion-input>
     </ion-item>
   </ion-list>
 
@@ -78,14 +78,14 @@
       Notification Settings
     </ion-list-header>
     <ion-item>
-      <ion-toggle checked="true" ngModel="profileModel.notifications"></ion-toggle>
+      <ion-toggle checked="true" [(ngModel)]="profileModel.notifications"></ion-toggle>
       <ion-label>
         Allow Notifications
       </ion-label>
     </ion-item>
 
     <ion-item>
-      <ion-toggle checked="true" ngModel="profileModel.notifyClique"></ion-toggle>
+      <ion-toggle checked="true" [(ngModel)]="profileModel.notifyClique"></ion-toggle>
       <ion-label>
         Allow Notifications from my Clique
       </ion-label>

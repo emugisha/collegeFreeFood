@@ -44,8 +44,8 @@ export class AuthService {
     });
   }
 
-  getCurrentAuthUser(){
-    return this.auth.currentUser;
+  getAuth(){
+    return this.auth;
   }
 
   logout(){

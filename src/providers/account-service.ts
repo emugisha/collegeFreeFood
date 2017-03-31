@@ -46,7 +46,7 @@ export class AccountService {
       userId:user.uid,
       username:null,
       major:null,
-      email:null,
+      email:profileModel.email,
       status:null
     };
 
@@ -69,7 +69,7 @@ export class AccountService {
   }
 
   getUserProfile(uid){
-    return this.usersRef.child('/'+ uid+'/private').once('value');
+    return this.usersRef.child(uid+'/private').once('value');
   }
 
   checkEmail(){

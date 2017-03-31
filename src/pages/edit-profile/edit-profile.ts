@@ -3,6 +3,7 @@ import {NavController, NavParams, ActionSheetController} from 'ionic-angular';
 import {CameraService} from "../../providers/camera-service";
 import {AccountService} from "../../providers/account-service";
 import {AuthService} from "../../providers/auth-service";
+import {ConfigService} from "../../providers/config-service";
 
 /*
   Generated class for the EditProfile page.
@@ -24,16 +25,40 @@ export class EditProfilePage {
     this.profileModel = {};
   }
 
+  /*ionViewCanEnter():boolean{
+    let auth = this.configService.getFirebaseAuth();
+
+    auth.onAuthStateChanged((user)=>{
+      if(user){
+        return true;
+      }else{
+        return false;
+      }
+    });
+
+}*/
   ionViewDidLoad() {
-    this.profilePicture ="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
-    this.user = this.authService.getCurrentAuthUser();
-    console.log(this.user);
-    if(this.user.uid) {
-      this.accountService.getUserProfile(this.user.uid).then((profile)=>{
-        this.profileModel = profile;
-        this.profileModel.name = this.profileModel.firstName + this.profileModel.lastName;
-      });
-    }
+
+    this.authService.getAuth().onAuthStateChanged(
+      (user)=>{
+        if(user) {
+          this.profilePicture = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+            this.accountService.getUserProfile(user.uid).then((snapshot)=>{
+              this.profileModel = snapshot.val();
+              console.log(this.profileModel);
+              this.profileModel.name = this.profileModel.firstName + ''+ this.profileModel.lastName;
+            });
+
+        }else{
+          console.log('Not logged in');
+        }
+      },
+      (error)=>{
+        console.log('error occurred');
+        console.log(error);
+      }
+    )
+
 
   }
 

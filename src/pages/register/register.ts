@@ -78,7 +78,6 @@ export class RegisterPage {
   private createProfile(user){
     this.accoutService.createProfile(user, this.registrationModel).then(
       (success)=>{
-        console.log(success);
         this.navCtrl.push(EditProfilePage);
       },(error)=>{
         console.log('Error');
