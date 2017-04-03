@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {NewPostPage} from "../new-post/new-post";
 import {EditProfilePage} from "../edit-profile/edit-profile";
+import {AuthService} from "../../providers/auth-service";
 
 /*
   Generated class for the Login page.
@@ -16,16 +17,26 @@ import {EditProfilePage} from "../edit-profile/edit-profile";
 export class LoginPage {
 
   private loginModel={};
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService:AuthService) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
   login(){
-    //this.navCtrl.push(NewPostPage);
-    this.navCtrl.push(EditProfilePage);
 
+    /*this.authService.login(this.loginModel).then((user)=>{
+      this.navCtrl.push(EditProfilePage);
+    }).catch((error)=>{
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      if (errorCode === 'auth/wrong-password') {
+        //
+      } else {
+        //alert(errorMessage);
+      }
+    });*/
+    //this.navCtrl.push(NewPostPage);
     this.navCtrl.push(EditProfilePage);
   }
 
