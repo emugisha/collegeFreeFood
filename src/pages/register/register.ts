@@ -30,6 +30,7 @@ export class RegisterPage {
   }
   ionViewDidLoad() {
     this.loadAllSchools();
+    this.registrationModel.school = null;
   }
 
   gotoStep(step){
@@ -42,18 +43,20 @@ export class RegisterPage {
 
   getSchools(event:any){
     let searchItem = event.target.value;
-    let allSchools;
     let maxIndex;
     if (searchItem && searchItem.trim() != '') {
         maxIndex = 0;
       this.schools = this.institutions.filter((school) => {
-          return maxIndex < 10 && (school.toLowerCase().indexOf(searchItem.toLowerCase()) > -1 && maxIndex++ < 10) ;
+          return maxIndex < 10 && (school.Institution_Name.toLowerCase().indexOf(searchItem.toLowerCase()) > -1 && maxIndex++ < 10) ;
       })
 
     }
   }
   chooseSchool(school){
-    this.registrationModel.school = school;
+    this.registrationModel.school = school.Institution_Name;
+    this.registrationModel.schoolId= school.Institution_ID;
+    console.log(this.registrationModel);
+
     this.schoolChosen = true;
     this.schools = [];
   }
@@ -90,7 +93,7 @@ export class RegisterPage {
     this.accoutService.lookupColleges().then((snapshot)=> {
       console.log('Loaded schools.....');
       snapshot.forEach((childSnapshot)=>{
-        this.institutions.push(childSnapshot.val().Institution_Name);
+        this.institutions.push(childSnapshot.val());
       });
 
       console.log(this.institutions);

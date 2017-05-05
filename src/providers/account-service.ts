@@ -15,23 +15,17 @@ export class AccountService {
   private usersRef;
   private dataRef;
   private collegesRef;
+  private usernamesRef;
 
   constructor(public http: Http, configService:ConfigService) {
     this.dataRef = configService.getFirebaseDatabase();
     this.usersRef = configService.getFirebaseDatabase().ref('/users');
+    this.usernamesRef = configService.getFirebaseDatabase().ref('/usernames');
     this.collegesRef = this.dataRef.ref('/schools');
   }
 
-  checkUsername(username){
-    this.usersRef.once('value',
-      (snapshot)=>{
-      //TODO: Move to main page logic
-        if(snapshot.hasChild(username.toLowerCase())){
-          return 'true';
-        }else{
-          return 'false';
-        }
-      });
+  checkUsername(){
+    return this.usernamesRef.once('value');
   }
 
   saveUsername(usernameModel){
@@ -61,7 +55,8 @@ export class AccountService {
     profileData['/private'] = privateProfile;
     profileData['/public'] = publicProfile;
 
-    return this.usersRef.child('/'+ user.uid).update(profileData);
+    //return this.usersRef.child('/'++'/'+ user.uid).update(profileData);
+    return this.dataRef.ref('/'+profileModel.schoolId).child("/users/"+user.uid).update(profileData);
   }
 
   editProfile(profileModel){

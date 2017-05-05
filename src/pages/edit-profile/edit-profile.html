@@ -1,9 +1,3 @@
-<!--
-  Generated template for the EditProfile page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar>
 
@@ -18,9 +12,8 @@
     </ion-buttons>
   </ion-navbar>
 
-
 </ion-header>
-<ion-content padding>
+<ion-content padding *ngIf="editProfileForm">
 
     <ion-item text-center>
       <ion-avatar>
@@ -30,23 +23,28 @@
       <button ion-button  color="default" clear (click)="showPictureOptions()">Edit Picture</button>
     </ion-item>
 
-
 <br/>
+  <form [formGroup]="editProfileForm">
     <ion-list no-border>
       <ion-item>
         <ion-icon name="md-person" item-left></ion-icon>
-        <ion-input placeholder="Choose a username" autofocus [(ngModel)]="profileModel.username"></ion-input>
-
+        <ion-input placeholder="Choose a username" autofocus formControlName="username"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="editProfileForm.controls.username.pending">
+        <p>Loading...</p>
+      </ion-item>
+      <ion-item *ngIf="!editProfileForm.controls.username.valid && !editProfileForm.controls.username.pending && (editProfileForm.controls.username.dirty)">
+        <p>Sorry, that username can not be used!</p>
       </ion-item>
 
       <ion-item>
       <ion-icon name="ios-body" item-left></ion-icon>
-      <ion-input placeholder="Name" [(ngModel)]="profileModel.name"></ion-input>
+      <ion-input placeholder="Name" formControlName="name"></ion-input>
     </ion-item>
 
       <ion-item>
         <ion-icon name="ios-mic" item-left></ion-icon>
-        <ion-input placeholder="About me" [(ngModel)]="profileModel.description"></ion-input>
+        <ion-input placeholder="Status..." formControlName="status"></ion-input>
       </ion-item>
 
     </ion-list>
@@ -59,16 +57,16 @@
 
     <ion-item>
       <ion-icon name="ios-mail" item-left></ion-icon>
-      <ion-input placeholder="Email" [(ngModel)]="profileModel.email"></ion-input>
+      <ion-input placeholder="Email" readonly="true" formControlName="email"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-icon name="ios-school" item-left></ion-icon>
-      <ion-input placeholder="Your School" [(ngModel)]="profileModel.school"></ion-input>
+      <ion-input placeholder="Your School" readonly="true" formControlName="school"></ion-input>
     </ion-item>
     <ion-item>
       <ion-icon name="ios-call" item-left></ion-icon>
-      <ion-input placeholder="Phone" [(ngModel)]="profileModel.phone"></ion-input>
+      <ion-input placeholder="Phone" formControlName="phone"></ion-input>
     </ion-item>
   </ion-list>
 
@@ -78,19 +76,19 @@
       Notification Settings
     </ion-list-header>
     <ion-item>
-      <ion-toggle checked="true" [(ngModel)]="profileModel.notifications"></ion-toggle>
+      <ion-toggle checked="true" formControlName="generalNotifications"></ion-toggle>
       <ion-label>
         Allow Notifications
       </ion-label>
     </ion-item>
 
     <ion-item>
-      <ion-toggle checked="true" [(ngModel)]="profileModel.notifyClique"></ion-toggle>
+      <ion-toggle checked="true" formControlName="cliqueNotifications"></ion-toggle>
       <ion-label>
         Allow Notifications from my Clique
       </ion-label>
     </ion-item>
 
   </ion-list>
-
+  </form>
 </ion-content>

@@ -3,8 +3,7 @@ import {NavController, NavParams, ActionSheetController} from 'ionic-angular';
 import {CameraService} from "../../providers/camera-service";
 import {AccountService} from "../../providers/account-service";
 import {AuthService} from "../../providers/auth-service";
-import {ConfigService} from "../../providers/config-service";
-
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 /*
   Generated class for the EditProfile page.
 
@@ -20,9 +19,13 @@ export class EditProfilePage {
   private profilePicture;
   private profileModel;
   private user;
+  private editProfileForm: FormGroup;
+  private existingUsernames = [];
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public cameraService:CameraService,
-              public accountService: AccountService, public authService: AuthService) {
+              public accountService: AccountService, public authService: AuthService, public formBuilder: FormBuilder) {
     this.profileModel = {};
+
   }
 
   /*ionViewCanEnter():boolean{
@@ -44,9 +47,8 @@ export class EditProfilePage {
         if(user) {
           this.profilePicture = "../assets/intro/dummy.png";
             this.accountService.getUserProfile(user.uid).then((snapshot)=>{
-              this.profileModel = snapshot.val();
-              console.log(this.profileModel);
-              this.profileModel.name = this.profileModel.firstName + ''+ this.profileModel.lastName;
+              let profileModel = snapshot.val();
+              this.buildEditProfileForm(profileModel);
             });
 
         }else{
@@ -57,7 +59,14 @@ export class EditProfilePage {
         console.log('error occurred');
         console.log(error);
       }
-    )
+    );
+    this.accountService.checkUsername().then((snapshot) => {
+      this.existingUsernames = snapshot.val();
+
+    }, (error) => {
+      console.log('error occurred');
+      console.log(error);
+    });
 
 
   }
@@ -109,6 +118,36 @@ export class EditProfilePage {
 
   private changeProfile(){
     this.accountService.editProfile(this.profileModel);
+  }
+
+  private buildEditProfileForm(profileModel){
+    this.editProfileForm= this.formBuilder.group({
+      username: [profileModel.username, [Validators.required, Validators.maxLength(20), Validators.minLength(2), this.validateUsername]],
+      name: [profileModel.firstName +''+ profileModel.lastName, [Validators.required, Validators.maxLength(40)]],
+      email: [profileModel.email],
+      status: [profileModel.status, [Validators.maxLength(50)]],
+      school: [profileModel.school],
+      phone: [profileModel.phone],
+      generalNotifications: [profileModel.generalNotifications],
+      cliqueNotifications: [profileModel.cliqueNotifications]
+    });
+  }
+
+  validateUsername(formControl:FormControl) {
+    let takenUsernames = [];
+    let userInput = formControl.value;
+    if (userInput && userInput.trim() != '') {
+      takenUsernames = this.existingUsernames.filter((user) => {
+        return user.toLowerCase().indexOf(userInput.toLowerCase()) > -1 ;
+      });
+    }
+
+    if(takenUsernames.length > 0){
+      return true;
+    }else {
+      return null;
+    }
+
   }
 
 }
