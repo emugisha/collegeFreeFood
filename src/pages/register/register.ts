@@ -53,7 +53,7 @@ export class RegisterPage {
     }
   }
   chooseSchool(school){
-    this.registrationModel.school = school.Institution_Name;
+    this.registrationModel.schoolName = school.Institution_Name;
     this.registrationModel.schoolId= school.Institution_ID;
     console.log(this.registrationModel);
 

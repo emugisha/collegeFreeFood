@@ -16,6 +16,7 @@ export class AccountService {
   private dataRef;
   private collegesRef;
   private usernamesRef;
+  private profile;
 
   constructor(public http: Http, configService:ConfigService) {
     this.dataRef = configService.getFirebaseDatabase();
@@ -36,7 +37,8 @@ export class AccountService {
     let privateProfile = {
       firstName:profileModel.firstName,
       lastName:profileModel.lastName,
-      school: profileModel.school,
+      schoolName: profileModel.school,
+      schoolId:profileModel.schoolId,
       userId:user.uid,
       username:null,
       major:null,
@@ -47,16 +49,20 @@ export class AccountService {
     let publicProfile = {
       firstName:profileModel.firstName,
       lastName:profileModel.lastName,
-      school: profileModel.school,
+      schoolName: profileModel.school,
       major:null,
       status:null
     };
+
+
+
     var profileData = {};
-    profileData['/private'] = privateProfile;
-    profileData['/public'] = publicProfile;
+    profileData['/users/'+user.uid+'/private'] = privateProfile;
+    profileData['/users/'+user.uid+'/public'] = publicProfile;
+    profileData['/attendance/' +privateProfile.schoolId + '/'+user.uid] = {};
 
     //return this.usersRef.child('/'++'/'+ user.uid).update(profileData);
-    return this.dataRef.ref('/'+profileModel.schoolId).child("/users/"+user.uid).update(profileData);
+    return this.dataRef.ref('/').update(profileData);
   }
 
   editProfile(profileModel){

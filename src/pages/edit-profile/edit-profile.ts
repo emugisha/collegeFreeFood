@@ -123,13 +123,14 @@ export class EditProfilePage {
   private buildEditProfileForm(profileModel){
     this.editProfileForm= this.formBuilder.group({
       username: [profileModel.username, [Validators.required, Validators.maxLength(20), Validators.minLength(2), this.validateUsername]],
-      name: [profileModel.firstName +''+ profileModel.lastName, [Validators.required, Validators.maxLength(40)]],
+      name: [profileModel.firstName +' '+ profileModel.lastName, [Validators.required, Validators.maxLength(40)]],
       email: [profileModel.email],
       status: [profileModel.status, [Validators.maxLength(50)]],
-      school: [profileModel.school],
+      schoolName: [profileModel.school],
+      schoolId: [profileModel.schoolId],
       phone: [profileModel.phone],
-      generalNotifications: [profileModel.generalNotifications],
-      cliqueNotifications: [profileModel.cliqueNotifications]
+      generalNotifications: [profileModel.generalNotifications] || true,
+      cliqueNotifications: [profileModel.cliqueNotifications] || true
     });
   }
 
