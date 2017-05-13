@@ -21,12 +21,13 @@ export class AccountService {
   constructor(public http: Http, configService:ConfigService) {
     this.dataRef = configService.getFirebaseDatabase();
     this.usersRef = configService.getFirebaseDatabase().ref('/users');
-    this.usernamesRef = configService.getFirebaseDatabase().ref('/usernames');
+    this.usernamesRef = configService.getFirebaseDatabase().ref('/registered');
     this.collegesRef = this.dataRef.ref('/schools');
   }
 
-  checkUsername(){
-    return this.usernamesRef.once('value');
+  checkUsername(username:string){
+    console.log('Checking username');
+    return this.usernamesRef.orderByValue().equalTo(username.toLowerCase()).once("value");
   }
 
   saveUsername(usernameModel){
@@ -34,39 +35,25 @@ export class AccountService {
   }
 
   createProfile(user, profileModel){
-    let privateProfile = {
-      firstName:profileModel.firstName,
-      lastName:profileModel.lastName,
-      schoolName: profileModel.school,
-      schoolId:profileModel.schoolId,
-      userId:user.uid,
-      username:null,
-      major:null,
-      email:profileModel.email,
-      status:null
-    };
+    let privateProfile = this.getPrivateProfile(profileModel,user);
 
-    let publicProfile = {
-      firstName:profileModel.firstName,
-      lastName:profileModel.lastName,
-      schoolName: profileModel.school,
-      major:null,
-      status:null
-    };
-
-
-
+    let publicProfile =  this.getPublicProfile(profileModel);
     var profileData = {};
     profileData['/users/'+user.uid+'/private'] = privateProfile;
     profileData['/users/'+user.uid+'/public'] = publicProfile;
-    profileData['/attendance/' +privateProfile.schoolId + '/'+user.uid] = {};
+    profileData['/attendance/' +privateProfile.schoolId + '/'+user.uid] = true;
 
     //return this.usersRef.child('/'++'/'+ user.uid).update(profileData);
     return this.dataRef.ref('/').update(profileData);
   }
 
-  editProfile(profileModel){
-
+  updateProfile(profileModel, user){
+    let privateProfile = this.getPrivateProfile(profileModel,user);
+    let publicProfile =  this.getPublicProfile(profileModel);
+    var profileData = {};
+    profileData['/users/'+user.uid+'/private'] = privateProfile;
+    profileData['/users/'+user.uid+'/public'] = publicProfile;
+    profileData['/registered/'+user.uid] = profileModel.username;
   }
 
   getUserProfile(uid){
@@ -79,5 +66,29 @@ export class AccountService {
 
   lookupColleges(){
     return this.collegesRef.once('value');
+  }
+
+  private getPrivateProfile(profileModel, user){
+    return {
+      firstName:profileModel.firstName,
+      lastName:profileModel.lastName,
+      schoolName: profileModel.school,
+      schoolId:profileModel.schoolId,
+      userId:user.uid,
+      username:null,
+      major:null,
+      email:profileModel.email,
+      status:null
+    };
+
+}
+  private getPublicProfile(profileModel){
+    return {
+      firstName:profileModel.firstName,
+      lastName:profileModel.lastName,
+      schoolName: profileModel.school,
+      major:null,
+      status:null
+    };
   }
 }

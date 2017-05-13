@@ -6,7 +6,7 @@
     </ion-title>
 
     <ion-buttons end>
-      <button ion-button clear (click)="changeProfile()">
+      <button ion-button clear (click)="changeProfile()" [disabled]="!editProfileForm.valid || isUsernameTaken">
         Done
       </button>
     </ion-buttons>
@@ -24,17 +24,17 @@
     </ion-item>
 
 <br/>
-  <form [formGroup]="editProfileForm">
+  <form [formGroup]="editProfileForm" *ngIf="editProfileForm">
     <ion-list no-border>
       <ion-item>
         <ion-icon name="md-person" item-left></ion-icon>
         <ion-input placeholder="Choose a username" autofocus formControlName="username"></ion-input>
       </ion-item>
-      <ion-item *ngIf="editProfileForm.controls.username.pending">
-        <p>Loading...</p>
+      <ion-item *ngIf="validationPending">
+        <p>checking username...</p>
       </ion-item>
-      <ion-item *ngIf="!editProfileForm.controls.username.valid && !editProfileForm.controls.username.pending && (editProfileForm.controls.username.dirty)">
-        <p>Sorry, that username can not be used!</p>
+      <ion-item *ngIf="isUsernameTaken">
+        <p>Sorry, this username is already taken</p>
       </ion-item>
 
       <ion-item>
@@ -62,7 +62,7 @@
 
     <ion-item>
       <ion-icon name="ios-school" item-left></ion-icon>
-      <ion-input placeholder="Your School" readonly="true" formControlName="school"></ion-input>
+      <ion-input placeholder="Your School" readonly="true" formControlName="schoolName"></ion-input>
     </ion-item>
     <ion-item>
       <ion-icon name="ios-call" item-left></ion-icon>

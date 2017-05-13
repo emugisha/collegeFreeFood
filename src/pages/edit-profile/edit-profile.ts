@@ -4,6 +4,7 @@ import {CameraService} from "../../providers/camera-service";
 import {AccountService} from "../../providers/account-service";
 import {AuthService} from "../../providers/auth-service";
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import "rxjs/add/operator/debounceTime";
 /*
   Generated class for the EditProfile page.
 
@@ -20,7 +21,8 @@ export class EditProfilePage {
   private profileModel;
   private user;
   private editProfileForm: FormGroup;
-  private existingUsernames = [];
+  private isUsernameTaken = false;
+  private validationPending = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public cameraService:CameraService,
               public accountService: AccountService, public authService: AuthService, public formBuilder: FormBuilder) {
@@ -45,6 +47,7 @@ export class EditProfilePage {
     this.authService.getAuth().onAuthStateChanged(
       (user)=>{
         if(user) {
+          this.user = user;
           this.profilePicture = "../assets/intro/dummy.png";
             this.accountService.getUserProfile(user.uid).then((snapshot)=>{
               let profileModel = snapshot.val();
@@ -60,14 +63,6 @@ export class EditProfilePage {
         console.log(error);
       }
     );
-    this.accountService.checkUsername().then((snapshot) => {
-      this.existingUsernames = snapshot.val();
-
-    }, (error) => {
-      console.log('error occurred');
-      console.log(error);
-    });
-
 
   }
 
@@ -117,37 +112,45 @@ export class EditProfilePage {
   }
 
   private changeProfile(){
-    this.accountService.editProfile(this.profileModel);
+    this.accountService.updateProfile(this.profileModel, this.user);
   }
 
   private buildEditProfileForm(profileModel){
     this.editProfileForm= this.formBuilder.group({
-      username: [profileModel.username, [Validators.required, Validators.maxLength(20), Validators.minLength(2), this.validateUsername]],
+      username: [profileModel.username, [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
       name: [profileModel.firstName +' '+ profileModel.lastName, [Validators.required, Validators.maxLength(40)]],
       email: [profileModel.email],
       status: [profileModel.status, [Validators.maxLength(50)]],
-      schoolName: [profileModel.school],
+      schoolName: [profileModel.schoolName],
       schoolId: [profileModel.schoolId],
       phone: [profileModel.phone],
       generalNotifications: [profileModel.generalNotifications] || true,
       cliqueNotifications: [profileModel.cliqueNotifications] || true
     });
+
+    this.editProfileForm.controls['username'].valueChanges
+      .debounceTime(500)
+      .subscribe(username=>{
+      this.validateUsername(username);
+    })
   }
 
-  validateUsername(formControl:FormControl) {
-    let takenUsernames = [];
-    let userInput = formControl.value;
-    if (userInput && userInput.trim() != '') {
-      takenUsernames = this.existingUsernames.filter((user) => {
-        return user.toLowerCase().indexOf(userInput.toLowerCase()) > -1 ;
-      });
-    }
+  private validateUsername(username) {
+    this.validationPending = true;
+    this.isUsernameTaken= false;
+    this.accountService.checkUsername(username).then((snapshot)=>{
 
-    if(takenUsernames.length > 0){
-      return true;
-    }else {
-      return null;
-    }
+      if(snapshot.val()){
+        console.log('found');
+        console.log(snapshot.val());
+        this.isUsernameTaken = true;
+        this.validationPending = false;
+      }else {
+        this.isUsernameTaken = false;
+        this.validationPending = false;
+        console.log('Not found');
+      }
+    });
 
   }
 
