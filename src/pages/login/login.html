@@ -18,13 +18,13 @@
   <ion-list>
 
     <ion-item class="register-margin">
-      <ion-input type="email" value="" placeholder="Email" [(ngModel)]="loginModel.email"></ion-input>
+      <ion-input type="email" value="" placeholder="Email" [(ngModel)]="loginModel.email" required="true" pattern="^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="password" value="" placeholder="Password" [(ngModel)]="loginModel.password"></ion-input>
+      <ion-input type="password" value="" placeholder="Password" [(ngModel)]="loginModel.password" required="true"></ion-input>
     </ion-item>
     <br>
-    <button ion-button block color="danger" (click)="login()">LOGIN</button>
+    <button ion-button block color="danger" (click)="login()" [disabled]="!(loginModel.email && loginModel.password)">LOGIN</button>
   </ion-list>
 
 
