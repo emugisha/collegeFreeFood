@@ -13,6 +13,11 @@ import {AccountService} from "../providers/account-service";
 import {LoginPage} from "../pages/login/login";
 import {AuthService} from "../providers/auth-service";
 import {EditProfilePage} from "../pages/edit-profile/edit-profile";
+import {MenuPage} from "../pages/menu/menu";
+import {NotificationPage} from "../pages/notification/notification";
+import {SquadPage} from "../pages/squad/squad";
+import {NewSquadPage} from "../pages/new-squad/new-squad";
+import {SquadDetailsPage} from "../pages/squad-details/squad-details";
 
 @NgModule({
   declarations: [
@@ -24,7 +29,12 @@ import {EditProfilePage} from "../pages/edit-profile/edit-profile";
     IntroPage,
     RegisterPage,
     LoginPage,
-    EditProfilePage
+    EditProfilePage,
+    MenuPage,
+    NotificationPage,
+    SquadPage,
+    NewSquadPage,
+    SquadDetailsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -39,7 +49,12 @@ import {EditProfilePage} from "../pages/edit-profile/edit-profile";
     TabsPage,
     RegisterPage,
     LoginPage,
-    EditProfilePage
+    EditProfilePage,
+    MenuPage,
+    NotificationPage,
+    SquadPage,
+    NewSquadPage,
+    SquadDetailsPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},
     CameraService,

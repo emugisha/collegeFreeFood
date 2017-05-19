@@ -54,6 +54,8 @@ export class AccountService {
     profileData['/users/'+user.uid+'/private'] = privateProfile;
     profileData['/users/'+user.uid+'/public'] = publicProfile;
     profileData['/registered/'+user.uid] = profileModel.username;
+
+    return this.dataRef.ref('/').update(profileModel);
   }
 
   getUserProfile(uid){
@@ -75,10 +77,10 @@ export class AccountService {
       schoolName: profileModel.school,
       schoolId:profileModel.schoolId,
       userId:user.uid,
-      username:null,
-      major:null,
+      username:profileModel.username,
+      major:profileModel.major,
       email:profileModel.email,
-      status:null
+      status:profileModel.status
     };
 
 }
@@ -87,8 +89,8 @@ export class AccountService {
       firstName:profileModel.firstName,
       lastName:profileModel.lastName,
       schoolName: profileModel.school,
-      major:null,
-      status:null
+      major:profileModel.major,
+      status:profileModel.status
     };
   }
 }

@@ -36,8 +36,8 @@ export class LoginPage {
         //alert(errorMessage);
       }
     });*/
-    //this.navCtrl.push(NewPostPage);
-    this.navCtrl.push(EditProfilePage);
+    this.navCtrl.push(NewPostPage);
+    //this.navCtrl.push(EditProfilePage);
   }
 
 }

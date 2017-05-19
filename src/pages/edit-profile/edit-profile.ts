@@ -5,6 +5,7 @@ import {AccountService} from "../../providers/account-service";
 import {AuthService} from "../../providers/auth-service";
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import "rxjs/add/operator/debounceTime";
+import {HomePage} from "../home/home";
 /*
   Generated class for the EditProfile page.
 
@@ -112,7 +113,13 @@ export class EditProfilePage {
   }
 
   private changeProfile(){
-    this.accountService.updateProfile(this.profileModel, this.user);
+    this.accountService.updateProfile(this.editProfileForm.value, this.user).then(
+      (success)=>{
+        this.navCtrl.push(HomePage);
+      },(error)=>{
+        console.log('Error');
+      }
+    );
   }
 
   private buildEditProfileForm(profileModel){
