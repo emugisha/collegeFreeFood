@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   logout(){
-    this.auth.signout();
+    return this.auth.signOut();
   }
 
   deleteUser(){

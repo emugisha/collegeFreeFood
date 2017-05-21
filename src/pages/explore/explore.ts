@@ -13,10 +13,15 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ExplorePage {
 
+  private segment = 'food';
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ExplorePage');
+  }
+  getItems(event){
+
   }
 
 }

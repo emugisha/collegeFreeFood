@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>explore</ion-title>
+    <ion-searchbar (input)="getItems($event)"></ion-searchbar>
   </ion-navbar>
 
 </ion-header>
@@ -15,4 +15,23 @@
 
 <ion-content padding>
 
+  <div padding>
+    <ion-segment [(ngModel)]="segment" color="danger">
+      <ion-segment-button value="food">
+        Food
+      </ion-segment-button>
+      <ion-segment-button value="sports">
+        Sports
+      </ion-segment-button>
+      <ion-segment-button value="events">
+        Events
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="segment">
+    <div *ngSwitchCase="'food'"> Groupon</div>
+    <div *ngSwitchCase="'sports'">Espn</div>
+    <div *ngSwitchCase="'events'">Events/EventBrite</div>
+  </div>
 </ion-content>
