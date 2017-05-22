@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import {NewPostPage} from "../new-post/new-post";
 import {EditProfilePage} from "../edit-profile/edit-profile";
 import {AuthService} from "../../providers/auth-service";
+import {ResetPasswordPage} from "../reset-password/reset-password";
 
 /*
   Generated class for the Login page.
@@ -25,7 +26,7 @@ export class LoginPage {
 
   login(){
 
-    /*this.authService.login(this.loginModel).then((user)=>{
+    this.authService.login(this.loginModel).then((user)=>{
       this.navCtrl.push(EditProfilePage);
     }).catch((error)=>{
       let errorCode = error.code;
@@ -35,9 +36,13 @@ export class LoginPage {
       } else {
         //alert(errorMessage);
       }
-    });*/
+    });
     this.navCtrl.push(NewPostPage);
     //this.navCtrl.push(EditProfilePage);
+  }
+
+  resetPassword(){
+    this.navCtrl.push(ResetPasswordPage);
   }
 
 }

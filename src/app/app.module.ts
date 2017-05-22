@@ -18,6 +18,8 @@ import {NotificationPage} from "../pages/notification/notification";
 import {SquadPage} from "../pages/squad/squad";
 import {NewSquadPage} from "../pages/new-squad/new-squad";
 import {SquadDetailsPage} from "../pages/squad-details/squad-details";
+import {AlertService} from "../providers/alert-service";
+import {ResetPasswordPage} from "../pages/reset-password/reset-password";
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import {SquadDetailsPage} from "../pages/squad-details/squad-details";
     NotificationPage,
     SquadPage,
     NewSquadPage,
-    SquadDetailsPage
+    SquadDetailsPage,
+    ResetPasswordPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -54,12 +57,14 @@ import {SquadDetailsPage} from "../pages/squad-details/squad-details";
     NotificationPage,
     SquadPage,
     NewSquadPage,
-    SquadDetailsPage
+    SquadDetailsPage,
+    ResetPasswordPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},
     CameraService,
     ConfigService,
     AccountService,
-    AuthService]
+    AuthService,
+    AlertService]
 })
 export class AppModule {}
