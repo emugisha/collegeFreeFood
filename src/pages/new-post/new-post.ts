@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {NavController, NavParams, ActionSheetController} from 'ionic-angular';
 import {CameraService} from "../../providers/camera-service";
 import {DatePicker} from 'ionic-native';
+import {PostService} from "../../providers/post-service";
 /*
   Generated class for the NewPost page.
 
@@ -15,10 +16,20 @@ import {DatePicker} from 'ionic-native';
 export class NewPostPage {
 
   private postImage:string;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public cameraService:CameraService) {}
+  private newPost;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public cameraService:CameraService,
+              private postService:PostService) {}
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad NewPostPage');
+    this.newPost={}
+  }
+
+  saveNewPost(){
+    //TODO:Post an image first and get the URL
+    this.newPost.imageUrl="http://business.providence.edu/wp-content/uploads/2015/04/20150417-DSC_2710.jpg";
+    this.postService.createPost(this.newPost).then(
+       success=>console.log(success),
+       error=>console.log(error));
   }
 
   showActionSheet(){
@@ -53,6 +64,7 @@ export class NewPostPage {
 
   private extractPicture(imageData){
     this.postImage = imageData;
+
   }
   private handleCameraError(error){
     console.log('An Error Ocurred');
@@ -68,7 +80,7 @@ export class NewPostPage {
       allowOldDates:false
 
     }).then(
-      date=>console.log('On '+date),
+      date=>this.newPost.date = date,
       error=>console.log('Error occured while getting date: ', error)
     );
   }

@@ -27,10 +27,7 @@
     <img [src]="postImage" *ngIf="postImage">
 
     <ion-card-content>
-      <!-- Text area -->
-
-        <ion-textarea placeholder="What's going down?" rows="3"></ion-textarea>
-
+        <ion-textarea placeholder="What's going down?" rows="3" [(ngModel)]="newPost.description"></ion-textarea>
     </ion-card-content>
 
     <ion-row>

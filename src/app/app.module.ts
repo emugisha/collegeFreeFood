@@ -20,6 +20,7 @@ import {NewSquadPage} from "../pages/new-squad/new-squad";
 import {SquadDetailsPage} from "../pages/squad-details/squad-details";
 import {AlertService} from "../providers/alert-service";
 import {ResetPasswordPage} from "../pages/reset-password/reset-password";
+import {PostService} from "../providers/post-service";
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import {ResetPasswordPage} from "../pages/reset-password/reset-password";
     ConfigService,
     AccountService,
     AuthService,
-    AlertService]
+    AlertService,
+    PostService]
 })
 export class AppModule {}
