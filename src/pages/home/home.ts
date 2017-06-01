@@ -4,6 +4,8 @@ import {NavController, NavParams} from 'ionic-angular';
 import {AuthService} from "../../providers/auth-service";
 import {LoginPage} from "../login/login";
 import {MenuPage} from "../menu/menu";
+import {PostService} from "../../providers/post-service";
+import {AccountService} from "../../providers/account-service";
 
 @Component({
   selector: 'page-home',
@@ -11,7 +13,9 @@ import {MenuPage} from "../menu/menu";
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public authService: AuthService) {
+  private timeline = [];
+  constructor(public navCtrl: NavController, public navParams: NavParams,public authService: AuthService, public postService:PostService,
+              public accountService:AccountService) {
 
   }
 
@@ -20,6 +24,8 @@ export class HomePage {
       (user)=>{
         if(user) {
           console.log(user);
+          //Retrieve recent posts
+          this.getRecentPosts(user.uid);
           } else{
           this.navCtrl.push(LoginPage);
         }
@@ -29,6 +35,43 @@ export class HomePage {
         console.log(error);
       }
     );
+}
+
+getRecentPosts(userId){
+   this.postService.getRecentPosts().then(
+     (data)=>{
+       data.forEach((snapshot)=>{
+         this.getPostDetails(snapshot.key);
+       });
+
+   },
+   error=>{
+     console.log(error);
+   });
+}
+
+private getPostDetails(key){
+  this.postService.getPostByKey(key).then((data)=>{
+
+    let post = data.val();
+    if(post.owner){
+      this.postService.getPostOwner(post.owner).then((data)=> {
+          post.ownerProfile = data.val();
+          this.timeline.push(post);
+        }
+      );
+    }else{
+      console.log(this.accountService.getCurrentUser());
+      post.ownerProfile = this.accountService.getCurrentUser();
+      this.timeline.push(post);
+    }
+
+    console.log(data.val());
+  })
+}
+
+private getPostOwner(postData){
+
 }
 
 goToMenu(){

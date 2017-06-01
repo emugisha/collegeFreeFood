@@ -24,7 +24,7 @@
       <h2>Marty McFly</h2>
     </ion-item>-->
 
-    <img [src]="postImage" *ngIf="postImage">
+    <img [src]="displayImage" *ngIf="postImage">
 
     <ion-card-content>
         <ion-textarea placeholder="What's going down?" rows="3" [(ngModel)]="newPost.description"></ion-textarea>
@@ -41,7 +41,7 @@
           <ion-icon name="pin" color="danger"></ion-icon>
         </button>
       </ion-col>
-      <ion-col center text-center>
+      <ion-col>
         <button ion-button clear small (click)="showDatePicker()">
           <ion-icon name="calendar" color="danger" ></ion-icon>
         </button>
@@ -51,5 +51,5 @@
 
   </ion-card>
 
-  <button ion-button icon-right color="danger" full>Post  <ion-icon name="send"></ion-icon></button>
+  <button ion-button icon-right color="danger" full (click)="saveNewPost()">Post  <ion-icon name="send"></ion-icon></button>
 </ion-content>

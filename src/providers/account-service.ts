@@ -17,12 +17,14 @@ export class AccountService {
   private collegesRef;
   private usernamesRef;
   private profile;
+  private currentUser;
 
   constructor(public http: Http, configService:ConfigService) {
     this.dataRef = configService.getFirebaseDatabase();
     this.usersRef = configService.getFirebaseDatabase().ref('/users');
     this.usernamesRef = configService.getFirebaseDatabase().ref('/registered');
     this.collegesRef = this.dataRef.ref('/schools');
+    this.currentUser = {};
   }
 
   checkUsername(username:string){
@@ -55,7 +57,7 @@ export class AccountService {
     profileData['/users/'+user.uid+'/public'] = publicProfile;
     profileData['/registered/'+user.uid] = profileModel.username;
 
-    return this.dataRef.ref('/').update(profileModel);
+    return this.dataRef.ref().update(profileData);
   }
 
   getUserProfile(uid){
@@ -89,8 +91,30 @@ export class AccountService {
       firstName:profileModel.firstName,
       lastName:profileModel.lastName,
       schoolName: profileModel.school,
+      username:profileModel.username,
       major:profileModel.major,
       status:profileModel.status
     };
+  }
+
+  public getCurrentUser(){
+    return this.currentUser;
+  }
+
+  public setCurrentUser(auth){
+    auth.onAuthStateChanged(
+      (user)=>{
+        if(user) {
+           this.usersRef.child(user.uid+'/public').once('value').then(
+             (currentUser)=>this.currentUser = currentUser.val()
+           );
+        } else{
+          this.currentUser = null;
+        }
+      },
+      (error)=>{
+        this.currentUser = null;
+      }
+    );
   }
 }

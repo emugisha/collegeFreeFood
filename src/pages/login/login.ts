@@ -27,7 +27,7 @@ export class LoginPage {
   login(){
 
     this.authService.login(this.loginModel).then((user)=>{
-      this.navCtrl.push(EditProfilePage);
+      this.navCtrl.push(NewPostPage);
     }).catch((error)=>{
       let errorCode = error.code;
       let errorMessage = error.message;
@@ -37,7 +37,6 @@ export class LoginPage {
         //alert(errorMessage);
       }
     });
-    this.navCtrl.push(NewPostPage);
     //this.navCtrl.push(EditProfilePage);
   }
 

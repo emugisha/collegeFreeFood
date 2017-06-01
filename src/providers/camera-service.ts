@@ -14,6 +14,7 @@ export class CameraService {
   private cameraOptions;
   constructor(public platform:Platform) {
     this.cameraOptions = {
+      destinationType: Camera.DestinationType.DATA_URL,
       quality:70,
       allowEdit:true,
       targetWidth:640,

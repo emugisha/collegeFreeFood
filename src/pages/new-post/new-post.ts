@@ -3,6 +3,8 @@ import {NavController, NavParams, ActionSheetController} from 'ionic-angular';
 import {CameraService} from "../../providers/camera-service";
 import {DatePicker} from 'ionic-native';
 import {PostService} from "../../providers/post-service";
+import {HomePage} from "../home/home";
+import {AlertService} from "../../providers/alert-service";
 /*
   Generated class for the NewPost page.
 
@@ -16,22 +18,43 @@ import {PostService} from "../../providers/post-service";
 export class NewPostPage {
 
   private postImage:string;
+  private displayImage;
   private newPost;
   constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public cameraService:CameraService,
-              private postService:PostService) {}
+              private postService:PostService, public alertService:AlertService) {
+    this.newPost={}
+  }
 
   ionViewDidLoad() {
-    this.newPost={}
+
   }
 
   saveNewPost(){
     //TODO:Post an image first and get the URL
-    this.newPost.imageUrl="http://business.providence.edu/wp-content/uploads/2015/04/20150417-DSC_2710.jpg";
-    this.postService.createPost(this.newPost).then(
-       success=>console.log(success),
-       error=>console.log(error));
+    //this.newPost.imageUrl=this.postImage;
+    console.log(this.newPost);
+    let newPostKey = this.postService.createNewKey();
+    this.postService.uploadImage(this.postImage,newPostKey).then(
+      data=>{
+        console.log('Done creating');
+        console.log(data.downloadURL);
+        this.newPost.imageUrl = data.downloadURL;
+        this.uploadPost(this.newPost,newPostKey);
+      },
+      error=>this.alertService.showAlert('Error in uploading the image',error,'OK')
+    )
+
   }
 
+  private uploadPost(post, newPostKey){
+    this.postService.savePost(post,newPostKey).then(
+      success=>{
+        this.postImage = null;
+        this.newPost = {};
+        this.navCtrl.push(HomePage);
+      },
+      error=>this.alertService.showAlert('Unable to create the new post',error,'OK'));
+  }
   showActionSheet(){
     let actionSheet = this.actionSheetCtrl.create({
       title:'Choose From',
@@ -64,11 +87,12 @@ export class NewPostPage {
 
   private extractPicture(imageData){
     this.postImage = imageData;
-
+    this.displayImage = "data:image/jpeg;base64,"+imageData;
   }
   private handleCameraError(error){
     console.log('An Error Ocurred');
     console.log(error);
+    this.alertService.showAlert('An Error Occurred',error,'OK');
   }
   showDatePicker(){
     DatePicker.show({
@@ -81,7 +105,7 @@ export class NewPostPage {
 
     }).then(
       date=>this.newPost.date = date,
-      error=>console.log('Error occured while getting date: ', error)
+      error=>this.alertService.showAlert('An Error Occurred',error,'OK')
     );
   }
 

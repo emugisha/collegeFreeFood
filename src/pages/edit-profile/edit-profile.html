@@ -6,7 +6,7 @@
     </ion-title>
 
     <ion-buttons end>
-      <button ion-button clear (click)="changeProfile()" [disabled]="isUsernameTaken">
+      <button ion-button clear (click)="changeProfile()" [disabled]="isUsernameTaken || !editProfileForm.controls['username'].value">
         Done
       </button>
     </ion-buttons>

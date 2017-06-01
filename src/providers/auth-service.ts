@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {ConfigService} from "./config-service";
+import {AccountService} from "./account-service";
 
 /*
   Generated class for the AuthService provider.
@@ -14,7 +15,7 @@ export class AuthService {
 
   private auth;
 
-  constructor(public http: Http, private configService:ConfigService) {
+  constructor(public http: Http, private configService:ConfigService, public accountService:AccountService) {
     this.auth = configService.getFirebaseAuth();
   }
 
@@ -45,6 +46,7 @@ export class AuthService {
   }
 
   getAuth(){
+    this.accountService.setCurrentUser(this.auth);
     return this.auth;
   }
 
