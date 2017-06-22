@@ -6,6 +6,7 @@ import {LoginPage} from "../login/login";
 import {MenuPage} from "../menu/menu";
 import {PostService} from "../../providers/post-service";
 import {AccountService} from "../../providers/account-service";
+import {PresentationPage} from "../presentation/presentation";
 
 @Component({
   selector: 'page-home',
@@ -27,7 +28,8 @@ export class HomePage {
           //Retrieve recent posts
           this.getRecentPosts(user.uid);
           } else{
-          this.navCtrl.push(LoginPage);
+          //this.navCtrl.push(LoginPage);
+          this.navCtrl.push(PresentationPage);
         }
       },
       (error)=>{
@@ -43,7 +45,6 @@ getRecentPosts(userId){
        data.forEach((snapshot)=>{
          this.getPostDetails(snapshot.key);
        });
-
    },
    error=>{
      console.log(error);
@@ -65,13 +66,7 @@ private getPostDetails(key){
       post.ownerProfile = this.accountService.getCurrentUser();
       this.timeline.push(post);
     }
-
-    console.log(data.val());
   })
-}
-
-private getPostOwner(postData){
-
 }
 
 goToMenu(){

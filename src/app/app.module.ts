@@ -21,6 +21,11 @@ import {SquadDetailsPage} from "../pages/squad-details/squad-details";
 import {AlertService} from "../providers/alert-service";
 import {ResetPasswordPage} from "../pages/reset-password/reset-password";
 import {PostService} from "../providers/post-service";
+import {GrouponService} from "../providers/groupon-service";
+import {Geolocation} from "ionic-native";
+import {SportService} from "../providers/sport-service";
+import {EventBriteService} from "../providers/event-brite-service";
+import {PresentationPage} from "../pages/presentation/presentation";
 
 @NgModule({
   declarations: [
@@ -38,7 +43,8 @@ import {PostService} from "../providers/post-service";
     SquadPage,
     NewSquadPage,
     SquadDetailsPage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    PresentationPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -59,7 +65,8 @@ import {PostService} from "../providers/post-service";
     SquadPage,
     NewSquadPage,
     SquadDetailsPage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    PresentationPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},
     CameraService,
@@ -67,6 +74,10 @@ import {PostService} from "../providers/post-service";
     AccountService,
     AuthService,
     AlertService,
-    PostService]
+    PostService,
+    GrouponService,
+    SportService,
+    Geolocation,
+    EventBriteService]
 })
 export class AppModule {}

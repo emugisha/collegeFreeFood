@@ -6,6 +6,7 @@ import {AuthService} from "../../providers/auth-service";
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import "rxjs/add/operator/debounceTime";
 import {HomePage} from "../home/home";
+import {AlertService} from "../../providers/alert-service";
 /*
   Generated class for the EditProfile page.
 
@@ -24,9 +25,11 @@ export class EditProfilePage {
   private editProfileForm: FormGroup;
   private isUsernameTaken = false;
   private validationPending = false;
+  private hasProfilePictureChanged:boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public cameraService:CameraService,
-              public accountService: AccountService, public authService: AuthService, public formBuilder: FormBuilder) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private actionSheetCtrl: ActionSheetController, private cameraService:CameraService,
+              private accountService: AccountService, private authService: AuthService, private formBuilder: FormBuilder,
+              private alertService:AlertService) {
     this.profileModel = {};
 
   }
@@ -106,6 +109,8 @@ export class EditProfilePage {
 
   private extractPicture(imageData){
     this.profilePicture = imageData;
+    this.hasProfilePictureChanged = true;
+
   }
   private handleCameraError(error){
     console.log('An Error Ocurred');
@@ -113,7 +118,22 @@ export class EditProfilePage {
   }
 
   private changeProfile(){
-    this.accountService.updateProfile(this.editProfileForm.value, this.user).then(
+    this.profileModel = this.editProfileForm.value;
+
+    if(this.hasProfilePictureChanged){
+      this.accountService.uploadProfilePicture(this.profilePicture).then((data)=>{
+        this.profileModel.profilePictureUrl = data.downloadURL;
+        this.updateProfile();
+
+      },(error)=>this.alertService.showAlert('Aw, Snap!',"Unable to upload the profile picture. Please try again",'OK'))
+    }else{
+      this.updateProfile();
+    }
+
+  }
+
+  private updateProfile(){
+    this.accountService.updateProfile(this.profileModel, this.user).then(
       (success)=>{
         this.navCtrl.push(HomePage);
       },(error)=>{

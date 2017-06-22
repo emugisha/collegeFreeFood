@@ -37,13 +37,14 @@
         </button>
       </ion-col>
       <ion-col>
-        <button  ion-button clear small>
-          <ion-icon name="pin" color="danger"></ion-icon>
+        <button  ion-button clear small color="danger" (click)="showDatePicker(0)">
+         <!-- <ion-icon name="pin" color="danger"></ion-icon>-->
+          Starts at:
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button clear small (click)="showDatePicker()">
-          <ion-icon name="calendar" color="danger" ></ion-icon>
+        <button ion-button clear small (click)="showDatePicker(1)" color="danger">
+         Ends at:
         </button>
       </ion-col>
 

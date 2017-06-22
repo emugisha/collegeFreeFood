@@ -94,7 +94,7 @@ export class NewPostPage {
     console.log(error);
     this.alertService.showAlert('An Error Occurred',error,'OK');
   }
-  showDatePicker(){
+  private showDatePicker(timeFrame){
     DatePicker.show({
       date:new Date(),
       mode:'datetime',
@@ -104,7 +104,14 @@ export class NewPostPage {
       allowOldDates:false
 
     }).then(
-      date=>this.newPost.date = date,
+      date=>{
+        if(timeFrame == 0){
+          this.newPost.startDate = date;
+        }else{
+          this.newPost.endDate = date;
+        }
+
+      },
       error=>this.alertService.showAlert('An Error Occurred',error,'OK')
     );
   }

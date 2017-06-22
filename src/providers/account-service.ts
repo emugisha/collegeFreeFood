@@ -18,12 +18,14 @@ export class AccountService {
   private usernamesRef;
   private profile;
   private currentUser;
+  private imageRef;
 
   constructor(public http: Http, configService:ConfigService) {
     this.dataRef = configService.getFirebaseDatabase();
     this.usersRef = configService.getFirebaseDatabase().ref('/users');
     this.usernamesRef = configService.getFirebaseDatabase().ref('/registered');
     this.collegesRef = this.dataRef.ref('/schools');
+    this.imageRef = configService.getFirebaseStorage();
     this.currentUser = {};
   }
 
@@ -82,7 +84,8 @@ export class AccountService {
       username:profileModel.username,
       major:profileModel.major,
       email:profileModel.email,
-      status:profileModel.status
+      status:profileModel.status,
+      profilePicture:profileModel.profilePicture
     };
 
 }
@@ -93,7 +96,8 @@ export class AccountService {
       schoolName: profileModel.school,
       username:profileModel.username,
       major:profileModel.major,
-      status:profileModel.status
+      status:profileModel.status,
+      profilePicture:profileModel.profilePicture
     };
   }
 
@@ -116,5 +120,9 @@ export class AccountService {
         this.currentUser = null;
       }
     );
+  }
+
+  public uploadProfilePicture(imageUrl){
+    return this.imageRef.child('/profile/'+this.currentUser+'/profile.jpg').putString(imageUrl, 'base64', { contentType: 'image/jpg' })
   }
 }

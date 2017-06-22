@@ -1,0 +1,51 @@
+<!--
+  Generated template for the Menu page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+  <ion-item (click)="gotoProfile()">
+    <ion-avatar item-left>
+      <img src="https://i1.wp.com/friendsmania.net/autos/wp-content/uploads/2015/04/BMW-3-Series-Facelift-Car-Price-in-Pakistan-Interior-Color-Model-2015.jpg?fit=1024%2C682">
+    </ion-avatar>
+    MY PROFILE
+    <ion-icon name="ios-arrow-forward" item-right></ion-icon>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="ios-albums" item-left></ion-icon>
+    MY POSTS
+    <ion-icon name="ios-arrow-forward" item-right></ion-icon>
+  </ion-item>
+  <ion-item (click)="gotoNotifications()">
+    <ion-icon name="ios-notifications" item-left ></ion-icon>
+    MY NOTIFICATIONS
+    <ion-icon name="ios-arrow-forward" item-right></ion-icon>
+  </ion-item>
+  <ion-item (click)="gotoSquads()">
+    <ion-icon name="ios-people" item-left></ion-icon>
+    MY SQUAD
+    <ion-icon name="ios-arrow-forward" item-right></ion-icon>
+  </ion-item>
+  <ion-item (click)="logout()">
+    <ion-icon name="ios-log-out" item-left></ion-icon>
+    LOGOUT
+    <ion-icon name="ios-arrow-forward" item-right></ion-icon>
+  </ion-item>
+  <ion-item (click)="deleteAccount()">
+    <ion-icon name="ios-close" item-left></ion-icon>
+    DELETE MY ACCOUNT
+    <ion-icon name="ios-arrow-forward" item-right></ion-icon>
+  </ion-item>
+  </ion-list>
+</ion-content>

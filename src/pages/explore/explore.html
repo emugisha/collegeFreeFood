@@ -16,7 +16,7 @@
 <ion-content padding>
 
   <div padding>
-    <ion-segment [(ngModel)]="segment" color="danger">
+    <ion-segment [(ngModel)]="segment" color="danger" (change)="onSegmentChange($event)">
       <ion-segment-button value="food">
         Food
       </ion-segment-button>
@@ -30,8 +30,112 @@
   </div>
 
   <div [ngSwitch]="segment">
-    <div *ngSwitchCase="'food'"> Groupon</div>
-    <div *ngSwitchCase="'sports'">Espn</div>
-    <div *ngSwitchCase="'events'">Events/EventBrite</div>
+    <div *ngSwitchCase="'food'">
+
+      <ion-card><img src="http://assets1.grouponcdn.com/images/logos/powered_by_groupon.png"></ion-card>
+
+      <ion-card *ngFor="let deal of grouponDeals">
+        <span *ngIf="deal.grid6ImageUrl"><img [src]="deal.grid6ImageUrl"/></span>
+        <ion-card-content>
+          <p><b>{{deal.merchant.name}}</b></p>
+
+          <p>
+            {{deal.announcementTitle}}
+          </p>
+        </ion-card-content>
+        <ion-row no-padding>
+          <ion-col>
+          <button ion-button clear small color="danger" (click)="viewMoreDealDetails(deal.dealUrl)">
+            <ion-icon name='star'></ion-icon>
+            View More
+          </button>
+        </ion-col>
+          <ion-col>
+            <button ion-button clear small color="danger" (click)="viewMoreDealDetails(deal.dealUrl)">
+              <ion-icon name='star'></ion-icon>
+              Share
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+    <div *ngSwitchCase="'sports'">
+      <ion-list>
+
+        <ion-list-header class="text-center">
+          <ion-icon name='ios-basketball' item-start></ion-icon>
+          NCAA BASKETBALL
+        </ion-list-header>
+
+        <span *ngIf="menBbGames.length > 0" class="list-games">
+            <ion-item *ngFor="let game of menBbGames | slice:0:5">
+              <h2>{{game?.HomeTeam}} @ {{game?.AwayTeam}}</h2>
+              <ion-note item-right>{{game?.DateTime | date:'shortTime'}}</ion-note>
+            </ion-item>
+
+            <button ion-item text-center>View More...</button>
+          </span>
+
+        <span *ngIf="menBbGames.length == 0">
+        <ion-item>
+
+          <h2>No Games Scheduled</h2>
+
+        </ion-item>
+        </span>
+
+        <ion-list-header class="text-center">
+          <ion-icon name='ios-american-football' item-start></ion-icon>
+          NCAA FOOTBALL
+        </ion-list-header>
+
+        <span *ngIf="ncaaFootballGames.length > 0" class="list-games">
+            <ion-item *ngFor="let game of ncaaFootballGames | slice:0:5">
+              <h2>{{game?.HomeTeam}} @ {{game?.AwayTeam}}</h2>
+              <ion-note item-right>{{game?.DateTime | date:'shortTime'}}</ion-note>
+            </ion-item >
+
+            <button ion-item text-center>View More...</button>
+          </span>
+
+        <span *ngIf="ncaaFootballGames.length == 0">
+        <ion-item>
+
+          <h2>No Games Scheduled</h2>
+
+        </ion-item>
+        </span>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'events'">
+      <ion-card *ngFor="let event of events">
+        <span *ngIf="event?.logo"><img [src]="event?.logo?.original?.url"/></span>
+        <ion-card-content>
+          <p><b>{{event?.name.text}}</b></p>
+
+          <p>
+            {{event?.description.text}}
+          </p>
+          <p>
+            <small>From {{event?.start?.local | date:'shortTime' }} to {{event?.end.local | date:'shortTime'}}</small>
+          </p>
+
+        </ion-card-content>
+        <ion-row no-padding>
+          <ion-col>
+            <button ion-button clear small color="danger" (click)="viewMoreDealDetails(deal.dealUrl)">
+              <ion-icon name='star'></ion-icon>
+              View More
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button clear small color="danger" (click)="viewMoreDealDetails(deal.dealUrl)">
+              <ion-icon name='star'></ion-icon>
+              Share
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
   </div>
 </ion-content>
